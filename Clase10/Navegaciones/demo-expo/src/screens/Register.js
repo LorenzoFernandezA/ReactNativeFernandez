@@ -4,7 +4,7 @@ import { TextInput } from "react-native";
 import { Pressable } from "react-native";
 import { Text } from "react-native";
 import { View } from "react-native";
-import { auth } from '../firebase/config'
+import {db, auth } from '../firebase/config';
 
 
 class Register extends Component{
@@ -23,6 +23,12 @@ class Register extends Component{
         auth.createUserWithEmailAndPassword(email, pass)
          .then(response => {
             this.setState({registered: true})
+            db.collection('users').add({
+              owner: auth.currentUser.email,
+              username: this.state.userName,
+              createdAt: Date.now(),
+            })
+            console.log(users)
             this.props.navigation.navigate('Login')
         })
         .catch(error => {
@@ -30,6 +36,7 @@ class Register extends Component{
         })
     }
     
+
 
     
     render(){
