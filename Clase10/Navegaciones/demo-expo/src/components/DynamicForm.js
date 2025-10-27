@@ -1,49 +1,40 @@
 import React from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 
-export default class Login extends React.Component {
+export default class DynamicForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
-      password: ''
+      comentario: '',
     };
   }
 
   onSubmit = () => {
-    console.log('Datos ingresados:');
-    console.log('Email:', this.state.email);
-    console.log('Password:', this.state.password);
+    console.log('Comentario ingresado:');
+    console.log(this.state.comentario);
   };
 
   render() {
     return (
       <View style={styles.container}>
-        <Text>Formulario de Login</Text>
+        <Text>Formulario de Comentarios</Text>
 
+        
         <TextInput
           style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          onChangeText={text => this.setState({ email: text })}
-          value={this.state.email}
+          placeholder="Escribí tu comentario..."
+          onChangeText={text => this.setState({ comentario: text })}
+          value={this.state.comentario}
         />
 
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          secureTextEntry={true}
-          onChangeText={text => this.setState({ password: text })}
-          value={this.state.password}
-        />
-
+        
         <Pressable style={styles.button} onPress={this.onSubmit}>
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Enviar</Text>
         </Pressable>
 
+        
         <View>
-          <Text>Email: {this.state.email}</Text>
-          <Text>Contraseña: {this.state.password}</Text>
+          <Text>Comentario: {this.state.comentario}</Text>
         </View>
       </View>
     );
@@ -86,4 +77,3 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
 });
-
