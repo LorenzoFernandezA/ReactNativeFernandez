@@ -17,7 +17,7 @@ export default class DynamicForm extends React.Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text>Formulario de Comentarios</Text>
+        
 
         
         <TextInput

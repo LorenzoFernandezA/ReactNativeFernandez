@@ -1,81 +1,66 @@
-import React from 'react';
-import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet } from "react-native";
+import { TextInput } from "react-native";
+import { Pressable } from "react-native";
+import { Text } from "react-native";
+import { View } from "react-native";
+import { auth } from '../firebase/config'
 
-export default class Register extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      email: '',
-      username: '',
-      password: ''
-    };
-  }
 
-  
-  onSubmit = () => {
-    console.log('Datos ingresados:');
-    console.log('Email:', this.state.email);
-    console.log('Username:', this.state.username);
-    console.log('Password:', this.state.password);
-  };
+class Register extends Component{
+    constructor(props){
+        super(props)
+        this.state={
+            email:'',
+            userName:'',
+            password:'',
+        }
+    }
+    onSubmit(email, pass){
+        console.log(this.state.email, this.state.password, this.state.userName);
+        email = this.state.email
+        pass = this.state.password
+        auth.createUserWithEmailAndPassword(email, pass)
+         .then(response => {
+            this.setState({registered: true})
+            this.props.navigation.navigate('Login')
+        })
+        .catch(error => {
+            this.setState({error: 'Fallo en el registro'})
+        })
+    }
+    
 
-  render() {
-    return (
-      <View style={styles.container}>
-        <Text style={styles.title}>Formulario de Registro</Text>
-
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Email"
-          keyboardType="email-address"
-          onChangeText={text => this.setState({ email: text })}
-          value={this.state.email}
-        />
-
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Nombre de usuario"
-          onChangeText={text => this.setState({ username: text })}
-          value={this.state.username}
-        />
-
-        
-        <TextInput
-          style={styles.input}
-          placeholder="Contraseña"
-          secureTextEntry={true}
-          onChangeText={text => this.setState({ password: text })}
-          value={this.state.password}
-        />
-
-        
-        <Pressable style={styles.button} onPress={this.onSubmit}>
-          <Text style={styles.buttonText}>Registrate</Text>
-        </Pressable>
-
-        
-        <View >
-          <Text >Vista previa:</Text>
-          <Text>Email: {this.state.email}</Text>
-          <Text>Usuario: {this.state.username}</Text>
-          <Text>Contraseña: {this.state.password}</Text>
+    
+    render(){
+    return(
+        <View style={styles.conteiner}>
+            <Text style={styles.title}>Registro</Text>
+            <Pressable style={styles.boton} onPress={()=>this.props.navigation.navigate('Login')}> 
+                <Text>Ya tengo cuenta</Text>
+            </Pressable>
+            <Text style={styles.subtitle}>Email</Text>
+            <TextInput style={styles.input} keyboardType="email-address" onChangeText={text=>this.setState({email:text})} value={this.state.email}/>
+            <Text style={styles.subtitle}>Username</Text>
+            <TextInput style={styles.input} keyboardType="default" onChangeText={text=>this.setState({userName:text})} value={this.state.userName}/>
+            <Text style={styles.subtitle}>Password</Text>
+            <TextInput style={styles.input} keyboardType="default" onChangeText={text=>this.setState({password:text})} value={this.state.password} secureTextEntry={true}/>
+            <Pressable style={styles.boton2} onPress={()=>this.onSubmit()}> 
+                <Text>Registrarme</Text>
+            </Pressable>
         </View>
-      </View>
-    );
-  }
+    )
+}
 }
 
-const styles = StyleSheet.create({
-  
-  container: {
-    paddingHorizontal: 10,
-    marginTop: 20,
-  },
 
-  
-  input: {
+const styles = StyleSheet.create({
+    title:{
+        fontSize:20,
+        fontWeight:'bold',
+        marginBottom:5
+    },
+    input: {
     height: 20,
     paddingVertical: 15,
     paddingHorizontal: 10,
@@ -84,23 +69,29 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderRadius: 6,
     marginVertical: 10,
-  },
-
+    },
+    boton:{
+        backgroundColor:'lightblue',
+        borderRadius:4,
+        padding:10,
+        alignItems:'center',
+    },
+    boton2:{
+        backgroundColor:'orange',
+        borderRadius:4,
+        padding:10,
+        alignItems:'center',
+        marginBottom:7
+    },
+    conteiner:{
+        padding:10
+    },
+    subtitle:{
+        fontSize:15,
+        fontWeight:'semibold',
+        marginBottom:5
+    }
   
-  button: {
-    backgroundColor: '#28a745',
-    paddingHorizontal: 10,
-    paddingVertical: 6,
-    alignItems: 'center',
-    borderRadius: 4,
-    borderWidth: 1,
-    borderStyle: 'solid',
-    borderColor: '#28a745',
-  },
+  });
 
-  
-  buttonText: {
-    color: '#fff',
-  },
-});
-
+export default Register

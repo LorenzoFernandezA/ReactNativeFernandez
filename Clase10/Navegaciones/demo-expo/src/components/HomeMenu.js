@@ -1,29 +1,25 @@
-import React from 'react';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, Button } from 'react-native';
+import Profile from '../screens/Profile';
+import Home from '../screens/Home';
+import Entypo from '@expo/vector-icons/Entypo';
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 
-export default function HomeMenu({ navigation }) {
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Bienvenido al Home Menu</Text>
-      
-      <Button
-        title="Ir a Perfil"
-        onPress={() => navigation.navigate('Profile')}
-      />
-    </View>
-  );
+const Tab = createBottomTabNavigator()
+
+class HomeMenu extends Component{
+  constructor(props){
+    super(props)
+  }
+  render(){
+    return(
+      <Tab.Navigator>
+        <Tab.Screen name="Home" component={Home} options={{tabBarIcon: ()=> <Entypo name ="home" size={24} color="black"/>}}/>
+        <Tab.Screen name="Profile" component={Profile} options={{tabBarIcon: ()=> <MaterialIcons name ="account-circle" size={24} color="black"/>}}/>
+      </Tab.Navigator>
+    )
+  }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#f2f2f2',
-  },
-  title: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-});
+export default HomeMenu;
